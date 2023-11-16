@@ -23,8 +23,11 @@ challenges = {
 
 def monthly_challenge_text(request, month):
     try:
-        challenge_text = f"<h1>{challenges[month]}<h1>"
-        return render(request,"challenges/challenge.html")
+        challenge_text = challenges[month]
+        return render(request,"challenges/challenge.html",{
+            "challenge_text": challenge_text,
+            "month":month
+        })
         # response_data=render_to_string("challenges/challenge.html")
         # return HttpResponse(response_data)
     except KeyError:
