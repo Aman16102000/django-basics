@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.urls import reverse
+from django.template.loader import render_to_string
 # Create your views here.
 
-# dict to store key value pair 
+# dict to store key value pair
 challenges = {
     "january": "Focus on yourself",
     "february": "Learn a new skill",
@@ -16,37 +17,40 @@ challenges = {
     "september": "Try a new hobby",
     "october": "Set and achieve a small goal",
     "november": "Express gratitude to someone each day",
-    "december": "Reflect on the past year and set goals for the new year"
+    "december": "Reflect on the past year and set goals for the new year",
 }
 
 
-def monthly_challenge_text(request,month):
+def monthly_challenge_text(request, month):
     try:
-        challenge_text=f"<h1>{challenges[month]}<h1>" 
+        challenge_text = f"<h1>{challenges[month]}<h1>"
+        return render(request,"challenges/challenge.html")
+        # response_data=render_to_string("challenges/challenge.html")
+        # return HttpResponse(response_data)
+    except KeyError:
+        print(KeyError)
         
-        # full_path=reverse("month-challenge")
-        # print(f"this is full path: {full_path}")
-    except:
         return HttpResponseNotFound("Enter valid month name")
-    return HttpResponse(challenge_text)
+    
 
 
-def monthly_challenge_number(request,month):
-    months_list=list(challenges.keys())
-    if month>12:
+def monthly_challenge_number(request, month):
+    months_list = list(challenges.keys())
+    if month > 12:
         return HttpResponseNotFound("<h1>Not a valid month number</h1>")
-    forwarding_month=months_list[month-1]
-    
-    redirect_path=reverse("month-challenge-url",args=[forwarding_month])
+    forwarding_month = months_list[month - 1]
+
+    redirect_path = reverse("month-challenge-url", args=[forwarding_month])
     print(redirect_path)
-    
+
     return HttpResponseRedirect(redirect_path)
 
+
 def all_months_list(request):
-    all_months_list=list(challenges.keys())
-    response_of_all_months=""
+    all_months_list = list(challenges.keys())
+    response_of_all_months = ""
     for x in all_months_list:
-        redirect_path=reverse("month-challenge-url",args=[x])
-        response_of_all_months+=f"<li><a href={redirect_path}>{x}</a></li>"
-    response_of_all_months=f"<ol>{response_of_all_months}</ol>" 
+        redirect_path = reverse("month-challenge-url", args=[x])
+        response_of_all_months += f"<li><a href={redirect_path}>{x}</a></li>"
+    response_of_all_months = f"<ol>{response_of_all_months}</ol>"
     return HttpResponse(response_of_all_months)
