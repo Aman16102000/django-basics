@@ -6,7 +6,7 @@ from django.template.loader import render_to_string
 
 # dict to store key value pair
 challenges = {
-    "january": "Focus on yourself",
+    "january": "Focus on yourself.",
     "february": "Learn a new skill",
     "march": "Practice gratitude daily",
     "april": "Exercise regularly",
