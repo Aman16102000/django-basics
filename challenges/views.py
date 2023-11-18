@@ -28,8 +28,6 @@ def monthly_challenge_text(request, month):
             "challenge_text": challenge_text,
             "month":month
         })
-        # response_data=render_to_string("challenges/challenge.html")
-        # return HttpResponse(response_data)
     except KeyError:
         print(KeyError)
         
